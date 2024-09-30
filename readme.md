@@ -11,4 +11,4 @@ Currently, it stops the following things:
 2. Complaining about resource/data pack versions
 3. Complaining about dragons being here
 4. Only suggesting vanilla identifiers in commands
-5. Keybinds from only recognizing 1 keybind per key
+5. Conflicting keybinds from blocking each-other
