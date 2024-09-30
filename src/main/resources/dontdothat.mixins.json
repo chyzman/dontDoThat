@@ -9,7 +9,9 @@
   "client": [
     "GameOptionsMixin",
     "IntegratedServerLoaderMixin",
-    "ResourcePackEntryMixin"
+    "KeyBindingMixin",
+    "ResourcePackEntryMixin",
+    "accessor.KeyBindingAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
