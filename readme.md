@@ -6,9 +6,10 @@ Stops Minecraft from doing certain annoying things.
 [![Badge linking to issues on github](https://img.shields.io/badge/dynamic/json?query=value&url=https%3A%2F%2Fimg.shields.io%2Fgithub%2Fissues-raw%2Fchyzman%2FdontDoThat.json&label=&logo=github&color=2d2d2d&style=flat-square&labelColor=6e5494&logoColor=2d2d2d&suffix=%20issues)](https://github.com/chyzman/dontDoThat/issues)
 
 Don't Do That stops minecraft from being annoying.
-Currently, it stops the following things:
-1. Deleting unknown options from your options.txt file
-2. Complaining about resource/data pack versions
-3. Complaining about dragons being here
-4. Only suggesting vanilla identifiers in commands
-5. Conflicting keybinds from blocking each-other
+Currently, it does the following things:
+1. Prevents deletion of unknown options from your options.txt file
+2. Stops the game from complaining about resource/data pack versions
+3. Stops the game from complaining about dragons being here
+4. Makes identifier suggestions suggest identifiers from all namespaces instead of just minecraft
+5. Makes all keybinds bound to the same key work even if conflicting
+6. Makes chat history a lot longer

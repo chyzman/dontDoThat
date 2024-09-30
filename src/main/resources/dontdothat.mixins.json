@@ -7,6 +7,7 @@
     "CommandSourceMixin"
   ],
   "client": [
+    "ChatHudMixin",
     "GameOptionsMixin",
     "IntegratedServerLoaderMixin",
     "KeyBindingMixin",
