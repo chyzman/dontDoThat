@@ -4,6 +4,7 @@
   "package": "com.chyzman.dontdothat.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "CommandSourceMixin"
   ],
   "client": [
     "GameOptionsMixin",
