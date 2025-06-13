@@ -1,24 +1,23 @@
 package com.chyzman.dontdothat.mixin;
 
 import com.chyzman.dontdothat.mixin.accessor.KeyBindingAccessor;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.llamalad7.mixinextras.sugar.Local;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Map;
 
-import static com.chyzman.dontdothat.WhyCantMixinsHaveConstants.REAL_KEYS_MAP;
-
 @Mixin(KeyBinding.class)
 public class KeyBindingMixin {
+    @Unique private static final Multimap<InputUtil.Key, KeyBinding> REAL_KEYS_MAP = HashMultimap.create();
 
     @Shadow private InputUtil.Key boundKey;
 

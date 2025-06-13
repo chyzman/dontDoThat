@@ -5,14 +5,19 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "CommandManagerMixin",
-    "CommandSourceMixin"
+    "CommandSourceMixin",
+    "LevelStorageSessionMixin"
   ],
   "client": [
     "ChatHudMixin",
+    "ChatScreenMixin",
+    "ClientPlayerEntityMixin",
     "GameOptionsMixin",
     "IntegratedServerLoaderMixin",
     "KeyBindingMixin",
+    "MinecraftClientMixin",
     "ResourcePackEntryMixin",
+    "ResourcePackOrganizerPackMixin",
     "accessor.KeyBindingAccessor"
   ],
   "injectors": {

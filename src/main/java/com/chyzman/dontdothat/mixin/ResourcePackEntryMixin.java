@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public abstract class ResourcePackEntryMixin {
 
     @Redirect(method = "enable", at = @At(value = "INVOKE", target = "Lnet/minecraft/resource/ResourcePackCompatibility;isCompatible()Z"))
-    private boolean shutUpIKnowItsIncompatible(ResourcePackCompatibility instance) {
+    private boolean disablePackVersionMissMatchWarning(ResourcePackCompatibility instance) {
         return true;
     }
 }

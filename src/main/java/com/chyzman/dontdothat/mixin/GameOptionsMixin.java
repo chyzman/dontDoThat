@@ -1,11 +1,15 @@
 package com.chyzman.dontdothat.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
+import net.fabricmc.fabric.impl.resource.loader.FabricResourcePackProfile;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.resource.ResourcePackManager;
+import net.minecraft.resource.ResourcePackProfile;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -22,21 +26,24 @@ import java.util.function.Function;
 public abstract class GameOptionsMixin {
     @Unique private final Map<String, String> unknown = new HashMap<>();
 
-    @Shadow protected abstract void accept(GameOptions.Visitor visitor);
+    @Shadow
+    protected abstract void accept(GameOptions.Visitor visitor);
+
+    @Shadow public abstract void refreshResourcePacks(ResourcePackManager resourcePackManager);
 
     @Inject(method = "load", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/GameOptions;update(Lnet/minecraft/nbt/NbtCompound;)Lnet/minecraft/nbt/NbtCompound;"))
     private void rememberThatCompoundPls(
-            CallbackInfo ci,
-            @Local() NbtCompound compound,
-            @Share("data") LocalRef<NbtCompound> data
+        CallbackInfo ci,
+        @Local() NbtCompound compound,
+        @Share("data") LocalRef<NbtCompound> data
     ) {
         data.set(compound);
     }
 
     @Inject(method = "load", at = @At("TAIL"))
     private void removeTheRealOptionsFromThatCompoundFromEarlier(
-            CallbackInfo ci,
-            @Share("data") LocalRef<NbtCompound> data
+        CallbackInfo ci,
+        @Share("data") LocalRef<NbtCompound> data
     ) {
         var keys = data.get().getKeys();
         keys.remove("version");
@@ -82,9 +89,17 @@ public abstract class GameOptionsMixin {
 
     @Inject(method = "write", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/GameOptions;accept(Lnet/minecraft/client/option/GameOptions$Visitor;)V"))
     private void putTheOptionsBackInTheFile(
-            CallbackInfo ci,
-            @Local() PrintWriter writer
+        CallbackInfo ci,
+        @Local() PrintWriter writer
     ) {
         unknown.forEach((key, value) -> writer.println(key + ":" + value));
+    }
+
+    @ModifyExpressionValue(method = "refreshResourcePacks", at = @At(value = "INVOKE", target = "Lnet/minecraft/resource/ResourcePackProfile;isPinned()Z"))
+    private boolean excludeFabricInternalResourcePacksFromResourceRefreshCheck(
+        boolean original,
+        @Local ResourcePackProfile resourcePackProfile
+    ) {
+        return original || ((FabricResourcePackProfile)resourcePackProfile).fabric_isHidden();
     }
 }

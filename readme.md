@@ -11,6 +11,12 @@ Currently, it does the following things:
 2. Stops the game from complaining about resource/data pack versions
 3. Stops the game from complaining about dragons being here
 4. Makes identifier suggestions suggest identifiers from all namespaces instead of just minecraft
-5. Makes all keybinds bound to the same key work even if conflicting
+5. Makes all keybindings bound to the same key work even if conflicting
 6. Makes chat history a lot longer
 7. Makes command exceptions log errors if not handled by the command
+8. Removes minimum load time on loading screens that have them
+9. Makes "Pinned" resource packs able to be moved/disabled (server provided or otherwise)
+10. Allows opening GUIs while in portals
+11. "Removes" the chat command character limit (sets it to 2147483647)
+12. Makes deleting worlds send them to the recycling bin instead of deleting them (if possible)
+13. Fixes a Fabric API bug that causes a resource reload the first time you close the resource pack screen regardless of whether you changed anything
