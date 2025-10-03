@@ -31,4 +31,3 @@ Current features include:
 ### Misc
 1. Makes deleting worlds send them to the recycling bin instead of deleting them (if possible)
 2. Makes "Pinned" resource packs able to be moved/disabled (server provided or otherwise)
-3. Fixes a Fabric API bug that causes a resource reload the first time you close the resource pack screen regardless of whether you changed anything

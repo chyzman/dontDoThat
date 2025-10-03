@@ -114,16 +114,4 @@ public abstract class GameOptionsMixin {
             .sorted(Map.Entry.comparingByKey())
             .forEach(entry -> writer.println(entry.getKey() + ":" + entry.getValue()));
     }
-
-    @SuppressWarnings("UnstableApiUsage")
-    @ModifyExpressionValue(
-        method = "refreshResourcePacks",
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/resource/ResourcePackProfile;isPinned()Z")
-    )
-    private boolean excludeFabricInternalResourcePacksFromResourceRefreshCheck(
-        boolean original,
-        @Local() ResourcePackProfile resourcePackProfile
-    ) {
-        return original || ((FabricResourcePackProfile) resourcePackProfile).fabric_isHidden();
-    }
 }

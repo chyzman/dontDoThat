@@ -35,7 +35,8 @@ public class ChatInputSuggestorMixin {
         method = "sortSuggestions",
         at = @At(
             value = "INVOKE",
-            target = "Lcom/mojang/brigadier/suggestion/Suggestions;getList()Ljava/util/List;"
+            target = "Lcom/mojang/brigadier/suggestion/Suggestions;getList()Ljava/util/List;",
+            remap = false
         ),
         cancellable = true
     )
