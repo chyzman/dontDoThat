@@ -6,10 +6,11 @@
   "mixins": [
     "CommandManagerMixin",
     "CommandSourceMixin",
-    "LevelStorageSessionMixin"
+    "LevelStorageSessionMixin", "LiteralCommandNodeMixin"
   ],
   "client": [
     "ChatHudMixin",
+    "ChatInputSuggestorMixin",
     "ChatScreenMixin",
     "ClientPlayerEntityMixin",
     "GameOptionsMixin",

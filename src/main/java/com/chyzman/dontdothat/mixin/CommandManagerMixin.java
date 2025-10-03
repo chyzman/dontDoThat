@@ -14,12 +14,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 public class CommandManagerMixin {
 
     @ModifyExpressionValue(method = "execute", at = @At(value = "FIELD", target = "Lnet/minecraft/SharedConstants;isDevelopment:Z"))
-    boolean dontDoThat$enableCommandExceptions(boolean original) {
+    boolean enableCommandExceptions(boolean original) {
         return true;
     }
 
     @WrapWithCondition(method = "execute", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/command/ServerCommandSource;sendError(Lnet/minecraft/text/Text;)V", ordinal = 1))
-    boolean dontDoThat$butDontIncludeTheExtraErrorInChat(ServerCommandSource instance, Text message) {
+    boolean butDontIncludeTheExtraErrorInChat(ServerCommandSource instance, Text message) {
         return false;
     }
 }

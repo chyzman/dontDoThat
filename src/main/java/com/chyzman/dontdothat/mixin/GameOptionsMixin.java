@@ -1,6 +1,8 @@
 package com.chyzman.dontdothat.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
@@ -29,9 +31,13 @@ public abstract class GameOptionsMixin {
     @Shadow
     protected abstract void accept(GameOptions.Visitor visitor);
 
-    @Shadow public abstract void refreshResourcePacks(ResourcePackManager resourcePackManager);
-
-    @Inject(method = "load", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/GameOptions;update(Lnet/minecraft/nbt/NbtCompound;)Lnet/minecraft/nbt/NbtCompound;"))
+    @Inject(
+        method = "load",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/client/option/GameOptions;update(Lnet/minecraft/nbt/NbtCompound;)Lnet/minecraft/nbt/NbtCompound;"
+        )
+    )
     private void rememberThatCompoundPls(
         CallbackInfo ci,
         @Local() NbtCompound compound,
@@ -87,19 +93,37 @@ public abstract class GameOptionsMixin {
         keys.forEach(s -> unknown.put(s, data.get().getString(s)));
     }
 
-    @Inject(method = "write", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/GameOptions;accept(Lnet/minecraft/client/option/GameOptions$Visitor;)V"))
+    @WrapOperation(
+        method = "write",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/client/option/GameOptions;accept(Lnet/minecraft/client/option/GameOptions$Visitor;)V"
+        )
+    )
     private void putTheOptionsBackInTheFile(
-        CallbackInfo ci,
+        GameOptions instance,
+        GameOptions.Visitor visitor,
+        Operation<Void> original,
         @Local() PrintWriter writer
     ) {
-        unknown.forEach((key, value) -> writer.println(key + ":" + value));
+        original.call(instance, visitor);
+        writer.println();
+        unknown
+            .entrySet()
+            .stream()
+            .sorted(Map.Entry.comparingByKey())
+            .forEach(entry -> writer.println(entry.getKey() + ":" + entry.getValue()));
     }
 
-    @ModifyExpressionValue(method = "refreshResourcePacks", at = @At(value = "INVOKE", target = "Lnet/minecraft/resource/ResourcePackProfile;isPinned()Z"))
+    @SuppressWarnings("UnstableApiUsage")
+    @ModifyExpressionValue(
+        method = "refreshResourcePacks",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/resource/ResourcePackProfile;isPinned()Z")
+    )
     private boolean excludeFabricInternalResourcePacksFromResourceRefreshCheck(
         boolean original,
-        @Local ResourcePackProfile resourcePackProfile
+        @Local() ResourcePackProfile resourcePackProfile
     ) {
-        return original || ((FabricResourcePackProfile)resourcePackProfile).fabric_isHidden();
+        return original || ((FabricResourcePackProfile) resourcePackProfile).fabric_isHidden();
     }
 }
