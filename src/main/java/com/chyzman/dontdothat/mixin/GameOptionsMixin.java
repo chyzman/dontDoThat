@@ -90,7 +90,7 @@ public abstract class GameOptionsMixin {
                 return current;
             }
         });
-        keys.forEach(s -> unknown.put(s, data.get().getString(s)));
+        keys.forEach(s -> unknown.put(s, data.get().getString(s).orElse("")));
     }
 
     @WrapOperation(
