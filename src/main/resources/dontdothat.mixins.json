@@ -5,7 +5,6 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "CommandManagerMixin",
-    "CommandSourceMixin",
     "LevelStorageSessionMixin", "LiteralCommandNodeMixin"
   ],
   "client": [
@@ -15,7 +14,6 @@
     "ClientPlayerEntityMixin",
     "GameOptionsMixin",
     "IntegratedServerLoaderMixin",
-    "KeyBindingMixin",
     "MinecraftClientMixin",
     "ResourcePackEntryMixin",
     "ResourcePackOrganizerPackMixin",
